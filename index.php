@@ -1,6 +1,6 @@
 <?php
-include ('config.php');
-include ('model/MYSQLI.php');
+include_once ('config.php');
+include_once ('model/MYSQLI.php');
 
 //автозагрузка
 function __autoload($classname) {
@@ -15,6 +15,8 @@ if($_POST['add_fruit']){
 }
 
 ?>
+
+
 
 
 
@@ -66,7 +68,7 @@ if($_POST['add_fruit']){
     <input type="submit" name="add_fruit" value="Добавить фрукт">
 </form>
 
-    <h2>Таблица с фруктами весом от 150</h2>
+    <h2>Таблица с фруктами, весом от 150</h2>
     <table class="table table-dark">
         <tr>
             <th>id</th>
@@ -86,8 +88,59 @@ if($_POST['add_fruit']){
         ?>
     </table>
 
+    <?php
+    $data_book = new Book();
+    $all_books = $data_book->showAllBooksWithAuthorName();
 
 
+    ?>
+
+    <h2>Список книг с их авторами</h2>
+    <table class="table table-dark">
+        <tr>
+            <th>id</th>
+            <th>Название книги</th>
+            <th>Автор</th>
+        </tr>
+        <?php
+        foreach ($all_books as $book){
+            ?>
+            <tr>
+                <th><?=$book['id'] ?></th>
+                <th><?=$book['book_title'] ?></th>
+                <th><?=$book['author_name'] ?></th>
+            </tr>
+            <?
+        }
+        ?>
+    </table>
+
+    <?php
+    $data_author = new Author();
+    $author_list = $data_author->showAuthorWithListBooks();
+
+
+    ?>
+
+    <h2>Список авторов с количеством книг</h2>
+    <table class="table table-dark">
+        <tr>
+            <th>id</th>
+            <th>Автор</th>
+            <th>Количество книг</th>
+        </tr>
+        <?php
+        foreach ($author_list as $author){
+            ?>
+            <tr>
+                <th><?=$author['id'] ?></th>
+                <th><?=$author['author_name'] ?></th>
+                <th><?=$author['COUNT(book.id)'] ?></th>
+            </tr>
+            <?
+        }
+        ?>
+    </table>
 </div>
 </body>
 </html>

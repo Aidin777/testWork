@@ -3,28 +3,25 @@
 class Author
 {
     public $authorName;
-    public $countBooks;
-    public $bookName;
+    public $author_id;
 
 
-    public function __construct($authorName, $countBooks, $bookName)
+    public function __construct()
     {
-        $this->authorName = $authorName;
-        $this->countBooks = $countBooks;
-        $this->bookName = $bookName;
 
     }
 
 
-    public function showAllBooksAuthor($author){
+    public function showAuthorWithListBooks(){
         $mysqli = M_MYSQLI::Instance();
-        //Подкдючение к БД
-        $query = "SELECT * FROM ";
-        $data = $mysqli->Select($query);
+        $query = "SELECT author.id, author.author_name, COUNT(book.id) FROM authors2 as author
+                JOIN books2 as book
+                ON author.id = book.author_id
+                GROUP BY author.id";
 
+        $data = $mysqli->Select($query);
         return $data;
     }
-
 
 
 }
